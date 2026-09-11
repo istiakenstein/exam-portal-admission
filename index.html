@@ -54,13 +54,18 @@
       gap: 15px;
     }
 
-    .logo-img {
+    /* CSS Embedded Avatar SVG Logo */
+    .avatar-logo {
       width: 48px;
       height: 48px;
       border-radius: 50%;
-      object-fit: cover;
       border: 2px solid var(--accent);
-      box-shadow: 0 0 12px rgba(0, 242, 254, 0.35);
+      box-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
+      background: #101522;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
     }
 
     .header h2 {
@@ -166,7 +171,18 @@
 <div class="portal-container" id="portal">
   <div class="header">
     <div class="header-left">
-      <img src="ChatGPT Image Mar 16, 2026, 01_41_22 AM.png" alt="Portal Logo" class="logo-img">
+      <!-- Direct Embedded Vector Logo (No Image Hosting Needed) -->
+      <div class="avatar-logo">
+        <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="48" fill="#151c2c"/>
+          <path d="M25 85C25 70 35 60 50 60C65 60 75 70 75 85" stroke="#da3633" stroke-width="8" stroke-linecap="round"/>
+          <circle cx="50" cy="42" r="18" fill="#fcd5ce"/>
+          <path d="M30 38C30 25 40 18 50 18C60 18 70 25 70 38C70 42 66 45 66 45C66 45 60 35 50 35C40 35 34 45 34 45C34 45 30 42 30 38Z" fill="#1b1b1b"/>
+          <rect x="22" y="32" width="10" height="20" rx="4" fill="#111" stroke="#00f2fe" stroke-width="2"/>
+          <rect x="68" y="32" width="10" height="20" rx="4" fill="#111" stroke="#00f2fe" stroke-width="2"/>
+          <path d="M32 35C40 20 60 20 68 35" stroke="#111" stroke-width="4" fill="none"/>
+        </svg>
+      </div>
       <h2 id="portal-title">Engineering Admission Test</h2>
     </div>
     <div class="timer-badge" id="timer">20:00</div>
@@ -224,7 +240,7 @@
   let currentIndex = 0;
   let userAnswers = Array(questions.length).fill(null);
   let timerInterval;
-  let timeLeft = 1200; // 20 mins
+  let timeLeft = 1200;
 
   function startTimer() {
     clearInterval(timerInterval);
@@ -323,7 +339,6 @@
     startTimer();
   }
 
-  // Initialize
   loadQuestion();
   startTimer();
 </script>
