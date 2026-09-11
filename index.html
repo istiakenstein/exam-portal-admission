@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Engineering Admission Test </title>
+  <title>Engineering Admission Test Portal</title>
   <style>
     :root {
       --bg-color: #0b0f19;
@@ -46,6 +46,21 @@
       border-bottom: 1px solid var(--border);
       padding-bottom: 15px;
       margin-bottom: 25px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 12px rgba(0, 242, 254, 0.35);
     }
 
     .header h2 {
@@ -150,7 +165,10 @@
 
 <div class="portal-container" id="portal">
   <div class="header">
-    <h2 id="portal-title">Engineering Admission Test</h2>
+    <div class="header-left">
+      <img src="ChatGPT Image Mar 16, 2026, 01_41_22 AM.png" alt="Portal Logo" class="logo-img">
+      <h2 id="portal-title">Engineering Admission Test</h2>
+    </div>
     <div class="timer-badge" id="timer">20:00</div>
   </div>
 
@@ -248,7 +266,7 @@
     buttons.forEach(b => b.classList.remove('selected'));
     
     if (userAnswers[currentIndex] === idx) {
-      userAnswers[currentIndex] = null; // Unselect if clicked again
+      userAnswers[currentIndex] = null;
     } else {
       userAnswers[currentIndex] = idx;
       btn.classList.add('selected');
@@ -283,7 +301,6 @@
       }
     });
 
-    // 0.25 negative mark per wrong answer (BUET/Engineering standard)
     let finalScore = (correct * 1.0) - (wrong * 0.25);
 
     document.getElementById('final-score').innerText = `${finalScore.toFixed(2)} / ${questions.length}`;
