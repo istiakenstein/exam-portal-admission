@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Admission Program (MAP) Exam Portal</title>
+  <style>
+    :root {
+      --bg-color: #0d1117;
+      --card-bg: #161b22;
+      --accent: #00e5ff;
+      --accent-purple: #7000ff;
+      --text-main: #f0f6fc;
+      --text-muted: #8b949e;
+      --correct: #2ea043;
+      --wrong: #da3633;
+      --border: #30363d;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .portal-container {
+      width: 100%;
+      max-width: 800px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 15px;
+      margin-bottom: 25px;
+    }
+
+    .header h2 {
+      color: var(--accent);
+      font-size: 1.5rem;
+    }
+
+    .timer-badge {
+      background: rgba(0, 229, 255, 0.1);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+
+    .question-box { margin-bottom: 25px; }
+
+    .question-title {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-btn {
+      background: #21262d;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 14px 18px;
+      border-radius: 8px;
+      text-align: left;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .option-btn:hover {
+      border-color: var(--accent);
+      background: #282e37;
+    }
+
+    .option-btn.selected {
+      border-color: var(--accent);
+      background: rgba(0, 229, 255, 0.15);
+    }
+
+    .option-btn.correct {
+      background: var(--correct);
+      border-color: var(--correct);
+      color: #fff;
+    }
+
+    .option-btn.wrong {
+      background: var(--wrong);
+      border-color: var(--wrong);
+      color: #fff;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      padding-top: 15px;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn {
+      padding: 10px 24px;
+      border-radius: 6px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-purple));
+      color: white;
+    }
+
+    .btn:hover { opacity: 0.9; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .result-screen {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .score-display {
+      font-size: 3rem;
+      color: var(--accent);
+      margin: 15px 0;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="portal-container" id="portal">
+  <div class="header">
+    <h2 id="portal-title">Medical Admission Prep - Physics Chapter Exam</h2>
+    <div class="timer-badge" id="timer">05:00</div>
+  </div>
+
+  <div id="quiz-body">
+    <div class="question-box">
+      <div class="question-title" id="question-text">Loading question...</div>
+      <div class="options-grid" id="options-container"></div>
+    </div>
+
+    <div class="footer">
+      <span id="progress" style="color: var(--text-muted); align-self: center;">Question 1 of 5</span>
+      <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()">Next Question</button>
+    </div>
+  </div>
+
+  <div id="result-body" class="result-screen" style="display: none;">
+    <h2>Exam Completed!</h2>
+    <div class="score-display" id="final-score">0 / 0</div>
+    <p id="feedback-text" style="color: var(--text-muted); margin-bottom: 25px;"></p>
+    <button class="btn btn-primary" onclick="restartExam()">Restart Exam</button>
+  </div>
+</div>
+
+<script>
+  const questions = [
+    {
+      question: "১. নিউটনের গতির দ্বিতীয় সূত্র থেকে কিসের পরিমাপ পাওয়া যায়?",
+      options: ["বল (Force)", "ভরবেগ (Momentum)", "জড়তা (Inertia)", "কাজ (Work)"],
+      answer: 0
+    },
+    {
+      question: "২. ১ নিউটন বল ১ কেজি ভরের ওপর ক্রিয়া করলে উৎপন্ন ত্বরণ কত?",
+      options: ["9.8 m/s²", "1 m/s²", "0.1 m/s²", "980 m/s²"],
+      answer: 1
+    },
+    {
+      question: "৩. রকেটের উড্ডয়ন কোন নীতির ওপর প্রতিষ্ঠিত?",
+      options: ["ভরের নিত্যতা সূত্র", "ভরবেগের সংরক্ষণ সূত্র", "শক্তির নিত্যতা সূত্র", "মহাকর্ষ সূত্র"],
+      answer: 1
+    },
+    {
+      question: "৪. লিফট যখন a ত্বরণে ওপরে ওঠে, তখন লিফটে দাঁড়ানো ব্যক্তির অনুভূতিতে ওজন কেমন হবে?",
+      options: ["w = m(g - a)", "w = m(g + a)", "w = mg", "w = 0"],
+      answer: 1
+    },
+    {
+      question: "৫. ঘর্ষণ বল সর্বদা গতির কোন অভিমুখে কাজ করে?",
+      options: ["গতির সমান্তরালে", "গতির লম্বালম্বি", "গতির বিপরীত দিকে", "গতির দিকে"],
+      answer: 2
+    }
+  ];
+
+  let currentIndex = 0;
+  let score = 0;
+  let selectedOption = null;
+  let timerInterval;
+  let timeLeft = 300; // 5 minutes
+
+  function startTimer() {
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      let minutes = Math.floor(timeLeft / 60);
+      let seconds = timeLeft % 60;
+      document.getElementById('timer').innerText = 
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        showResults();
+      }
+      timeLeft--;
+    }, 1000);
+  }
+
+  function loadQuestion() {
+    const q = questions[currentIndex];
+    document.getElementById('question-text').innerText = q.question;
+    document.getElementById('progress').innerText = `Question ${currentIndex + 1} of ${questions.length}`;
+    
+    const container = document.getElementById('options-container');
+    container.innerHTML = '';
+    selectedOption = null;
+
+    q.options.forEach((opt, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerText = opt;
+      btn.onclick = () => selectOption(btn, idx);
+      container.appendChild(btn);
+    });
+
+    document.getElementById('next-btn').innerText = (currentIndex === questions.length - 1) ? "Submit Exam" : "Next Question";
+  }
+
+  function selectOption(btn, idx) {
+    const buttons = document.querySelectorAll('.option-btn');
+    buttons.forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedOption = idx;
+  }
+
+  function nextQuestion() {
+    if (selectedOption === null) {
+      alert("Please select an option before moving to the next question!");
+      return;
+    }
+
+    if (selectedOption === questions[currentIndex].answer) {
+      score++;
+    }
+
+    currentIndex++;
+
+    if (currentIndex < questions.length) {
+      loadQuestion();
+    } else {
+      clearInterval(timerInterval);
+      showResults();
+    }
+  }
+
+  function showResults() {
+    document.getElementById('quiz-body').style.display = 'none';
+    document.getElementById('result-body').style.display = 'block';
+    document.getElementById('final-score').innerText = `${score} / ${questions.length}`;
+    
+    let percentage = (score / questions.length) * 100;
+    let msg = percentage >= 80 ? "Great job! Strong concepts." : "Need more review on this chapter.";
+    document.getElementById('feedback-text').innerText = msg;
+  }
+
+  function restartExam() {
+    currentIndex = 0;
+    score = 0;
+    timeLeft = 300;
+    document.getElementById('quiz-body').style.display = 'block';
+    document.getElementById('result-body').style.display = 'none';
+    loadQuestion();
+    startTimer();
+  }
+
+  // Initialize
+  loadQuestion();
+  startTimer();
+</script>
+
+</body>
+</html>
