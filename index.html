@@ -1,347 +1,379 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Engineering Admission Test Portal</title>
-  <style>
-    :root {
-      --bg-color: #0b0f19;
-      --card-bg: #151c2c;
-      --accent: #00f2fe;
-      --accent-purple: #4facfe;
-      --text-main: #f0f6fc;
-      --text-muted: #8b949e;
-      --correct: #2ea043;
-      --wrong: #da3633;
-      --border: #232d42;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
-
-    .portal-container {
-      width: 100%;
-      max-width: 850px;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 30px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-    }
-
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 15px;
-      margin-bottom: 25px;
-    }
-
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    /* CSS Embedded Avatar SVG Logo */
-    .avatar-logo {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: 2px solid var(--accent);
-      box-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
-      background: #101522;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
-
-    .header h2 {
-      color: var(--accent);
-      font-size: 1.4rem;
-      letter-spacing: 0.5px;
-    }
-
-    .timer-badge {
-      background: rgba(0, 242, 254, 0.1);
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 1.1rem;
-    }
-
-    .question-box { margin-bottom: 25px; }
-
-    .question-title {
-      font-size: 1.15rem;
-      margin-bottom: 20px;
-      line-height: 1.6;
-    }
-
-    .options-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .option-btn {
-      background: #1c2538;
-      border: 1px solid var(--border);
-      color: var(--text-main);
-      padding: 14px 18px;
-      border-radius: 8px;
-      text-align: left;
-      font-size: 0.98rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .option-btn:hover {
-      border-color: var(--accent);
-      background: #232e47;
-    }
-
-    .option-btn.selected {
-      border-color: var(--accent);
-      background: rgba(0, 242, 254, 0.15);
-    }
-
-    .footer {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 30px;
-      padding-top: 15px;
-      border-top: 1px solid var(--border);
-    }
-
-    .btn {
-      padding: 10px 24px;
-      border-radius: 6px;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-      transition: opacity 0.2s;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent-purple), var(--accent));
-      color: #0b0f19;
-    }
-
-    .btn:hover { opacity: 0.9; }
-
-    .result-screen {
-      text-align: center;
-      padding: 20px 0;
-    }
-
-    .score-display {
-      font-size: 3rem;
-      color: var(--accent);
-      margin: 15px 0;
-      font-weight: bold;
-    }
-
-    .stats {
-      display: flex;
-      justify-content: space-around;
-      margin: 20px 0;
-      background: #1c2538;
-      padding: 15px;
-      border-radius: 8px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IA Study Tracker</title>
+<style>
+:root {
+  --bg:#0b1020; --card:#131d32; --line:#293650;
+  --text:#edf2ff; --muted:#9eabc3; --accent:#80a0ff;
+  --green:#45d6a2;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0; background:var(--bg); color:var(--text);
+  font:15px/1.5 system-ui, sans-serif;
+}
+main { max-width:1000px; margin:auto; padding:24px 15px; }
+h1 { font-size:clamp(27px,5vw,40px); margin:4px 0; }
+h2 { font-size:18px; margin:0 0 15px; }
+p,.muted { color:var(--muted); }
+.card {
+  background:var(--card); border:1px solid var(--line);
+  border-radius:16px; padding:17px; margin-bottom:15px;
+}
+.grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px; }
+.stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin:15px 0; }
+.stat { background:var(--card); padding:13px; border-radius:12px; }
+.stat strong { display:block; font-size:25px; }
+.stat small { color:var(--muted); }
+.row { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+button,input,select,textarea { font:inherit; }
+input,select,textarea {
+  width:100%; min-width:0; padding:10px; border-radius:9px;
+  border:1px solid var(--line); background:#0d1527; color:var(--text);
+}
+input[type=checkbox] { width:17px; accent-color:var(--green); }
+button {
+  padding:9px 12px; border-radius:9px; cursor:pointer;
+  border:1px solid var(--line); background:#202d47; color:var(--text);
+}
+.primary { background:var(--accent); color:#091126; font-weight:700; }
+.bar { height:7px; background:#293650; border-radius:9px; overflow:hidden; }
+.bar div { height:100%; width:0; background:var(--green); }
+.task { display:flex; gap:10px; padding:11px 0; border-bottom:1px solid var(--line); }
+.task span { flex:1; }
+.task small { display:block; color:var(--muted); }
+label.fieldlabel { display:block; color:var(--muted); font-size:12px; margin:9px 0 5px; }
+.entry { padding:12px 0; border-bottom:1px solid var(--line); overflow-wrap:anywhere; }
+.tabs { display:flex; gap:6px; margin-bottom:12px; }
+.tabs button { flex:1; }
+.tabs .active { border-color:var(--accent); }
+.status { font-size:12px; color:var(--green); margin-top:9px; }
+@media(max-width:700px) {
+  .grid { grid-template-columns:1fr; }
+  .stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+</style>
 </head>
 <body>
-
-<div class="portal-container" id="portal">
-  <div class="header">
-    <div class="header-left">
-      <!-- Direct Embedded Vector Logo (No Image Hosting Needed) -->
-      <div class="avatar-logo">
-        <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="48" fill="#151c2c"/>
-          <path d="M25 85C25 70 35 60 50 60C65 60 75 70 75 85" stroke="#da3633" stroke-width="8" stroke-linecap="round"/>
-          <circle cx="50" cy="42" r="18" fill="#fcd5ce"/>
-          <path d="M30 38C30 25 40 18 50 18C60 18 70 25 70 38C70 42 66 45 66 45C66 45 60 35 50 35C40 35 34 45 34 45C34 45 30 42 30 38Z" fill="#1b1b1b"/>
-          <rect x="22" y="32" width="10" height="20" rx="4" fill="#111" stroke="#00f2fe" stroke-width="2"/>
-          <rect x="68" y="32" width="10" height="20" rx="4" fill="#111" stroke="#00f2fe" stroke-width="2"/>
-          <path d="M32 35C40 20 60 20 68 35" stroke="#111" stroke-width="4" fill="none"/>
-        </svg>
-      </div>
-      <h2 id="portal-title">Engineering Admission Test</h2>
+<main>
+  <div style="color:var(--green);letter-spacing:3px;font-size:11px">
+    ENGINEERING ADMISSION · 60 DAYS
+  </div>
+  <div class="row">
+    <div>
+      <h1>IA Study Tracker ⚡</h1>
+      <div class="muted">Quiet life. Clear mind. Relentless execution.</div>
     </div>
-    <div class="timer-badge" id="timer">20:00</div>
+    <strong id="dayTitle">Day 1/60</strong>
   </div>
 
-  <div id="quiz-body">
-    <div class="question-box">
-      <div class="question-title" id="question-text">Loading question...</div>
-      <div class="options-grid" id="options-container"></div>
+  <section class="card">
+    <label class="fieldlabel">Preparation start date</label>
+    <input id="startDate" type="date">
+    <div class="row" style="margin:12px 0">
+      <button id="prev">← Previous</button>
+      <span id="dateLabel">Day 1</span>
+      <button id="next">Next →</button>
+    </div>
+    <div class="bar"><div id="overallBar"></div></div>
+    <p id="loggedDays">0 of 60 days logged</p>
+  </section>
+
+  <section class="stats">
+    <div class="stat"><small>Total study hours</small><strong id="totalHours">0</strong></div>
+    <div class="stat"><small>Today's tasks</small><strong id="taskCount">0/6</strong></div>
+    <div class="stat"><small>Chapters completed</small><strong id="chapterCount">0/0</strong></div>
+    <div class="stat"><small>Mock tests</small><strong id="mockCount">0</strong></div>
+  </section>
+
+  <div class="grid">
+    <div>
+      <section class="card">
+        <h2>Today's Mission</h2>
+        <div id="tasks">
+          <label class="task"><input type="checkbox"><span>Mathematics<small>Concepts and problem solving · 2.5h</small></span></label>
+          <label class="task"><input type="checkbox"><span>Physics<small>Numericals and MCQs · 2.25h</small></span></label>
+          <label class="task"><input type="checkbox"><span>Chemistry<small>Theory, reactions and MCQs · 2h</small></span></label>
+          <label class="task"><input type="checkbox"><span>Active revision<small>Recall without notes · 1h</small></span></label>
+          <label class="task"><input type="checkbox"><span>Question practice<small>Review mistakes and re-solve questions</small></span></label>
+          <label class="task"><input type="checkbox"><span>Plan tomorrow<small>Choose your top three priorities</small></span></label>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <button id="uncheck">Uncheck all</button>
+          <button class="primary" id="logDay">Log day ✓</button>
+        </div>
+        <div class="status" id="taskStatus"></div>
+      </section>
+
+      <section class="card">
+        <h2>Focused Study Hours</h2>
+        <div class="grid">
+          <div><label class="fieldlabel">Math</label><input id="math" type="number" min="0" max="16" step=".25" value="0"></div>
+          <div><label class="fieldlabel">Physics</label><input id="physics" type="number" min="0" max="16" step=".25" value="0"></div>
+          <div><label class="fieldlabel">Chemistry</label><input id="chemistry" type="number" min="0" max="16" step=".25" value="0"></div>
+        </div>
+        <p>Total: <strong id="todayHours">0h</strong></p>
+        <div class="bar"><div id="hoursBar"></div></div>
+        <button class="primary" id="saveHours" style="width:100%;margin-top:12px">Save hours</button>
+      </section>
+
+      <section class="card">
+        <h2>PCM Chapter Tracker</h2>
+        <div class="tabs">
+          <button class="active" data-subject="Physics">Physics</button>
+          <button data-subject="Chemistry">Chemistry</button>
+          <button data-subject="Math">Math</button>
+        </div>
+        <form id="chapterForm" class="row">
+          <input id="chapterName" placeholder="Chapter name" required maxlength="100">
+          <button class="primary">Add +</button>
+        </form>
+        <div id="chapterList"></div>
+      </section>
     </div>
 
-    <div class="footer">
-      <span id="progress" style="color: var(--text-muted); align-self: center;">Question 1 of 20</span>
-      <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()">Next Question</button>
-    </div>
-  </div>
+    <div>
+      <section class="card">
+        <h2>Mock Test History</h2>
+        <form id="mockForm">
+          <label class="fieldlabel">Test name</label>
+          <input id="mockName" placeholder="PCM Mock 01" required>
+          <div class="grid">
+            <div><label class="fieldlabel">Score</label><input id="mockScore" type="number" min="0" step=".25" required></div>
+            <div><label class="fieldlabel">Total marks</label><input id="mockTotal" type="number" min=".25" value="100" step=".25" required></div>
+          </div>
+          <label class="fieldlabel">Weakness found</label>
+          <input id="mockNote" placeholder="e.g. slow calculations">
+          <button class="primary" style="width:100%;margin-top:12px">Record test</button>
+        </form>
+        <div id="mockHistory"></div>
+      </section>
 
-  <div id="result-body" class="result-screen" style="display: none;">
-    <h2>Test Completed!</h2>
-    <div class="score-display" id="final-score">0.00 / 20</div>
-    <div class="stats">
-      <div>Correct: <b id="correct-cnt" style="color: var(--correct);">0</b></div>
-      <div>Wrong: <b id="wrong-cnt" style="color: var(--wrong);">0</b></div>
-      <div>Skipped: <b id="skip-cnt" style="color: var(--text-muted);">0</b></div>
+      <section class="card">
+        <h2>Mistake Notebook</h2>
+        <form id="errorForm">
+          <label class="fieldlabel">Topic / question</label>
+          <input id="errorTopic" placeholder="Projectile motion" required>
+          <label class="fieldlabel">Mistake type</label>
+          <select id="errorType">
+            <option>Concept gap</option>
+            <option>Calculation error</option>
+            <option>Formula recall</option>
+            <option>Misread question</option>
+            <option>Time pressure</option>
+            <option>Guessing</option>
+          </select>
+          <label class="fieldlabel">Correct approach / next action</label>
+          <textarea id="errorFix" rows="3" placeholder="What will you do differently?"></textarea>
+          <button class="primary" style="width:100%;margin-top:12px">Add mistake</button>
+        </form>
+        <div id="errorList"></div>
+      </section>
+
+      <section class="card">
+        <h2>60-Day Roadmap</h2>
+        <div id="phases"></div>
+      </section>
+
+      <section class="card">
+        <h2>Backup & Data</h2>
+        <p class="muted">Your progress saves in this browser. Export backups regularly.</p>
+        <div class="row" style="flex-wrap:wrap">
+          <button class="primary" id="export">Export backup ↓</button>
+          <button id="import">Import backup ↑</button>
+          <button id="reset">Reset</button>
+          <input type="file" id="file" accept=".json" hidden>
+        </div>
+        <div class="status" id="backupStatus"></div>
+      </section>
     </div>
-    <p id="feedback-text" style="color: var(--text-muted); margin-bottom: 25px;"></p>
-    <button class="btn btn-primary" onclick="restartExam()">Retake Test</button>
   </div>
-</div>
+</main>
 
 <script>
-  const questions = [
-    { question: "১. একটি বস্তুকে v বেগ দিয়ে খাড়া ওপরের দিকে নিক্ষেপ করা হলে সেটি সর্বোচ্চ কত উচ্চতায় উঠবে?", options: ["v / g<sup>2</sup>", "v² / g", "v² / 2g", "2v / g"], answer: 2 },
-    { question: "২. ১ HP (হর্স পাওয়ার) সমান কত ওয়াট?", options: ["746 W", "750 W", "1000 W", "500 W"], answer: 0 },
-    { question: "৩. ভেক্টর A = 2i + 3j এবং B = 3i - 2j এর মধ্যবর্তী কোণ কত?", options: ["0°", "45°", "90°", "180°"], answer: 2 },
-    { question: "৪. লিফট g ত্বরণে নিচে নামলে ভেতরে থাকা কোনো ব্যক্তির অনুভূত ওজন কত হবে?", options: ["2mg", "mg", "mg / 2", "0"], answer: 3 },
-    { question: "৫. পৃথিবীর কেন্দ্রে কোনো বস্তুর ওজন কত?", options: ["অসীম", "শূন্য", "9.8 N", "9.8 kg"], answer: 1 },
-    { question: "৬. কাজের মাত্রা সমীকরণ কোনটি?", options: ["MLT⁻¹", "ML²T⁻²", "ML²T⁻³", "ML⁻¹T⁻²"], answer: 1 },
-    { question: "৭. কৌণিক ভরবেগের একক কোনটি?", options: ["kg m s⁻¹", "kg m² s⁻¹", "kg m s⁻²", "N m"], answer: 1 },
-    { question: "৮. সরল দোলকের গতিপথ কেমন?", options: ["রৈখিক", "বৃত্তাকার", "সরল রৈখিক পর্যায়বৃত্ত গতি", "উপবৃত্তাকার"], answer: 2 },
-    { question: "৯. কোনো স্প্রিংকে কেটে দুভাগ করলে প্রতিটি ভাগের স্প্রিং ধ্রুবক কেমন হবে?", options: ["অর্ধেক হবে", "দ্বিগুণ হবে", "একই থাকবে", "চারগুণ হবে"], answer: 1 },
-    { question: "১০. ইয়ং-এর গুণাঙ্কের একক কোনটি?", options: ["N/m", "N/m² (Pa)", "N m", "একক নেই"], answer: 1 },
-    { question: "১১. d/dx (sin²x + cos²x) = কত?", options: ["1", "0", "2sinx", "2cosx"], answer: 1 },
-    { question: "১২. ∫ (1/x) dx = কত?", options: ["ln|x| + c", "-1/x² + c", "eˣ + c", "x + c"], answer: 0 },
-    { question: "১৩. (1, 2) এবং (4, 6) বিন্দুদ্বয়ের সংযোগকারী রেখার ঢাল কত?", options: ["3/4", "4/3", "1/2", "2"], answer: 1 },
-    { question: "১৪. ম্যাট্রিক্স A এর অসংঘায়িত বিপরীত ম্যাট্রিক্স (A⁻¹) থাকার শর্ত কোনটি?", options: ["det(A) = 0", "det(A) ≠ 0", "A একটি বর্গ ম্যাট্রিক্স নয়", "A = 0"], answer: 0 },
-    { question: "১৫. i² = -1 হলে, i⁴ + i⁸ + i¹² = কত?", options: ["-1", "0", "3", "1"], answer: 2 },
-    { question: "১৬. পর্যায়বৃত্ত গতির ক্ষেত্রে পর্যায়কাল T এবং কম্পাঙ্ক f এর সম্পর্ক কী?", options: ["T = f", "T = 1/f", "T = f²", "T = 2πf"], answer: 1 },
-    { question: "১৭. অসংরক্ষণশীল বলের উদাহরণ কোনটি?", options: ["মহাকর্ষ বল", "তড়িৎ বল", "ঘর্ষণ বল", "স্প্রিং বল"], answer: 2 },
-    { question: "১৮. একটি কণার বেগ দ্বিগুণ করা হলে তার গতিশক্তি কত গুণ বৃদ্ধি পাবে?", options: ["২ গুণ", "৩ গুণ (মোট ৪ গুণ)", "৪ গুণ", "৮ গুণ"], answer: 1 },
-    { question: "১৯. বহুপদী সমীকরণ x² - 5x + 6 = 0 এর মূলদ্বয় কী কী?", options: ["(2, 3)", "(-2, -3)", "(1, 6)", "(-1, -6)"], answer: 0 },
-    { question: "২০. দুটি ভেক্টরের লব্ধির মান সর্বোচ্চ হয় যখন তাদের মধ্যবর্তী কোণ—", options: ["0°", "90°", "120°", "180°"], answer: 0 }
-  ];
+const $ = id => document.getElementById(id);
+const fresh = () => ({
+  start:"", day:1, logs:{},
+  chapters:{Physics:[],Chemistry:[],Math:[]},
+  mocks:[], errors:[], subject:"Physics"
+});
+let state = fresh();
+const KEY = "ia-study-tracker-v1";
+const esc = s => String(s ?? "").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c]));
 
-  let currentIndex = 0;
-  let userAnswers = Array(questions.length).fill(null);
-  let timerInterval;
-  let timeLeft = 1200;
-
-  function startTimer() {
-    clearInterval(timerInterval);
-    timerInterval = setInterval(() => {
-      let minutes = Math.floor(timeLeft / 60);
-      let seconds = timeLeft % 60;
-      document.getElementById('timer').innerText = 
-        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      
-      if (timeLeft <= 0) {
-        clearInterval(timerInterval);
-        showResults();
-      }
-      timeLeft--;
-    }, 1000);
-  }
-
-  function loadQuestion() {
-    const q = questions[currentIndex];
-    document.getElementById('question-text').innerText = `${currentIndex + 1}. ${q.question.replace(/^[০-৯]+\.\s*/, '')}`;
-    document.getElementById('progress').innerText = `Question ${currentIndex + 1} of ${questions.length}`;
-    
-    const container = document.getElementById('options-container');
-    container.innerHTML = '';
-
-    q.options.forEach((opt, idx) => {
-      const btn = document.createElement('button');
-      btn.className = `option-btn ${userAnswers[currentIndex] === idx ? 'selected' : ''}`;
-      btn.innerText = opt;
-      btn.onclick = () => selectOption(btn, idx);
-      container.appendChild(btn);
-    });
-
-    document.getElementById('next-btn').innerText = (currentIndex === questions.length - 1) ? "Submit Test" : "Next Question";
-  }
-
-  function selectOption(btn, idx) {
-    const buttons = document.querySelectorAll('.option-btn');
-    buttons.forEach(b => b.classList.remove('selected'));
-    
-    if (userAnswers[currentIndex] === idx) {
-      userAnswers[currentIndex] = null;
-    } else {
-      userAnswers[currentIndex] = idx;
-      btn.classList.add('selected');
+function load(){
+  try {
+    const s = localStorage.getItem(KEY);
+    if(s){
+      const p = JSON.parse(s);
+      state = {...fresh(),...p};
+      state.chapters = {...fresh().chapters,...p.chapters};
     }
+  } catch(e) {}
+}
+function save(){
+  try { localStorage.setItem(KEY,JSON.stringify(state)); }
+  catch(e) { $("backupStatus").textContent="Storage unavailable. Export a backup."; }
+}
+function day(){
+  if(!state.logs[state.day]) state.logs[state.day]={
+    tasks:[false,false,false,false,false,false],
+    hours:[0,0,0],logged:false
+  };
+  return state.logs[state.day];
+}
+function renderDay(){
+  const d=day(), count=d.tasks.filter(Boolean).length;
+  $("dayTitle").textContent=`Day ${state.day}/60`;
+  $("startDate").value=state.start;
+  if(state.start){
+    const dt=new Date(state.start+"T12:00:00");
+    dt.setDate(dt.getDate()+state.day-1);
+    $("dateLabel").textContent=dt.toLocaleDateString(undefined,{month:"short",day:"numeric"});
+  } else $("dateLabel").textContent="Day "+state.day;
+  [...$("tasks").querySelectorAll("input")].forEach((el,i)=>el.checked=!!d.tasks[i]);
+  ["math","physics","chemistry"].forEach((id,i)=>$(id).value=d.hours[i]||0);
+  const hrs=d.hours.reduce((a,b)=>a+b,0);
+  $("todayHours").textContent=hrs+"h";
+  $("hoursBar").style.width=Math.min(100,hrs/10*100)+"%";
+  $("taskCount").textContent=count+"/6";
+  $("taskStatus").textContent=d.logged?"Day logged. You can still edit it.":"";
+  $("logDay").textContent=d.logged?"Day logged ✓":"Log day ✓";
+  const logged=Object.values(state.logs).filter(x=>x.logged).length;
+  $("loggedDays").textContent=`${logged} of 60 days logged`;
+  $("overallBar").style.width=logged/60*100+"%";
+  $("totalHours").textContent=Object.values(state.logs).reduce(
+    (sum,x)=>sum+(x.hours||[]).reduce((a,b)=>a+(+b||0),0),0);
+  $("mockCount").textContent=state.mocks.length;
+  const chapters=Object.values(state.chapters).flat();
+  $("chapterCount").textContent=chapters.filter(c=>c.done).length+"/"+chapters.length;
+  const phases=[[1,15],[16,30],[31,45],[46,60]];
+  $("phases").innerHTML=phases.map(([a,b],i)=>{
+    const n=Object.entries(state.logs).filter(([k,v])=>+k>=a&&+k<=b&&v.logged).length;
+    const pct=Math.round(n/(b-a+1)*100);
+    return `<div style="margin:15px 0"><div class="row"><strong>${["Days 1–15 · Foundation","Days 16–30 · Mastery","Days 31–45 · Test training","Days 46–60 · Final revision"][i]}</strong><span>${pct}%</span></div><div class="bar"><div style="width:${pct}%"></div></div></div>`;
+  }).join("");
+}
+function renderChapters(){
+  document.querySelectorAll("[data-subject]").forEach(b=>b.classList.toggle("active",b.dataset.subject===state.subject));
+  const arr=state.chapters[state.subject]||[];
+  $("chapterList").innerHTML=arr.length?arr.map((c,i)=>`
+    <div class="entry row">
+      <label style="display:flex;gap:9px;align-items:center;flex:1">
+        <input type="checkbox" data-chapter="${i}" ${c.done?"checked":""}>
+        <span>${esc(c.name)}<small class="muted" style="display:block">${c.done?"Mastered":"In progress"}</small></span>
+      </label>
+      <button data-del-chapter="${i}">Delete</button>
+    </div>`).join(""):'<p class="muted">Add your first chapter above.</p>';
+}
+function renderMocks(){
+  $("mockHistory").innerHTML=state.mocks.length?[...state.mocks].reverse().map(m=>`
+    <div class="entry">
+      <div class="row"><strong>${esc(m.name)}</strong><strong>${m.score}/${m.total}</strong></div>
+      <small class="muted">Day ${m.day} · ${Math.round(m.score/m.total*100)}% ${m.note?"· "+esc(m.note):""}</small>
+      <button data-del-mock="${m.id}" style="margin-top:7px">Delete</button>
+    </div>`).join(""):'<p class="muted">No mock tests recorded yet.</p>';
+}
+function renderErrors(){
+  $("errorList").innerHTML=state.errors.length?[...state.errors].reverse().map(e=>`
+    <div class="entry">
+      <div class="row"><strong>${esc(e.topic)}</strong><button data-del-error="${e.id}">Delete</button></div>
+      <small class="muted">${esc(e.type)} · Day ${e.day}</small>
+      <p>${esc(e.fix||"No corrective action added.")}</p>
+      <label><input type="checkbox" data-resolved="${e.id}" ${e.resolved?"checked":""}> Resolved and re-tested</label>
+    </div>`).join(""):'<p class="muted">No mistakes recorded yet.</p>';
+}
+function render(){renderDay();renderChapters();renderMocks();renderErrors();}
+$("tasks").addEventListener("change",e=>{
+  if(e.target.matches('input[type="checkbox"]')){
+    const inputs=[...$("tasks").querySelectorAll("input")];
+    day().tasks=inputs.map(x=>x.checked);save();renderDay();
   }
-
-  function nextQuestion() {
-    currentIndex++;
-    if (currentIndex < questions.length) {
-      loadQuestion();
-    } else {
-      clearInterval(timerInterval);
-      showResults();
-    }
+});
+$("prev").onclick=()=>{state.day=Math.max(1,state.day-1);save();renderDay();};
+$("next").onclick=()=>{state.day=Math.min(60,state.day+1);save();renderDay();};
+$("startDate").onchange=e=>{state.start=e.target.value;save();renderDay();};
+$("uncheck").onclick=()=>{day().tasks=[false,false,false,false,false,false];save();renderDay();};
+$("logDay").onclick=()=>{day().logged=true;save();renderDay();};
+$("saveHours").onclick=()=>{
+  day().hours=["math","physics","chemistry"].map(id=>Math.min(16,Math.max(0,+$(id).value||0)));
+  save();renderDay();
+};
+document.querySelectorAll("[data-subject]").forEach(b=>b.onclick=()=>{
+  state.subject=b.dataset.subject;save();renderChapters();
+});
+$("chapterForm").onsubmit=e=>{
+  e.preventDefault();const name=$("chapterName").value.trim();if(!name)return;
+  state.chapters[state.subject].push({name,done:false});
+  $("chapterName").value="";save();renderChapters();renderDay();
+};
+$("chapterList").addEventListener("change",e=>{
+  if(e.target.matches("[data-chapter]")){
+    state.chapters[state.subject][+e.target.dataset.chapter].done=e.target.checked;
+    save();renderChapters();renderDay();
   }
-
-  function showResults() {
-    document.getElementById('quiz-body').style.display = 'none';
-    document.getElementById('result-body').style.display = 'block';
-
-    let correct = 0;
-    let wrong = 0;
-    let skipped = 0;
-
-    userAnswers.forEach((ans, idx) => {
-      if (ans === null) {
-        skipped++;
-      } else if (ans === questions[idx].answer) {
-        correct++;
-      } else {
-        wrong++;
-      }
-    });
-
-    let finalScore = (correct * 1.0) - (wrong * 0.25);
-
-    document.getElementById('final-score').innerText = `${finalScore.toFixed(2)} / ${questions.length}`;
-    document.getElementById('correct-cnt').innerText = correct;
-    document.getElementById('wrong-cnt').innerText = wrong;
-    document.getElementById('skip-cnt').innerText = skipped;
-
-    let percentage = (finalScore / questions.length) * 100;
-    let msg = percentage >= 70 ? "Excellent Performance! Engineering ready." : "Needs more practice on weak areas.";
-    document.getElementById('feedback-text').innerText = msg;
+});
+$("chapterList").addEventListener("click",e=>{
+  const b=e.target.closest("[data-del-chapter]");if(!b)return;
+  state.chapters[state.subject].splice(+b.dataset.delChapter,1);
+  save();renderChapters();renderDay();
+});
+$("mockForm").onsubmit=e=>{
+  e.preventDefault();
+  const name=$("mockName").value.trim(),score=+$("mockScore").value,total=+$("mockTotal").value;
+  if(!name||total<=0||score<0||score>total){$("backupStatus").textContent="Check your score and total marks.";return;}
+  state.mocks.push({id:Date.now(),name,score,total,note:$("mockNote").value.trim(),day:state.day});
+  $("mockName").value="";$("mockScore").value="";$("mockNote").value="";
+  save();render();
+};
+$("mockHistory").addEventListener("click",e=>{
+  const b=e.target.closest("[data-del-mock]");if(!b)return;
+  state.mocks=state.mocks.filter(m=>String(m.id)!==b.dataset.delMock);save();renderMocks();renderDay();
+});
+$("errorForm").onsubmit=e=>{
+  e.preventDefault();const topic=$("errorTopic").value.trim();if(!topic)return;
+  state.errors.push({id:Date.now(),topic,type:$("errorType").value,fix:$("errorFix").value.trim(),day:state.day,resolved:false});
+  $("errorTopic").value="";$("errorFix").value="";save();renderErrors();
+};
+$("errorList").addEventListener("click",e=>{
+  const b=e.target.closest("[data-del-error]");if(!b)return;
+  state.errors=state.errors.filter(x=>String(x.id)!==b.dataset.delError);save();renderErrors();
+});
+$("errorList").addEventListener("change",e=>{
+  const el=e.target.closest("[data-resolved]");if(!el)return;
+  const item=state.errors.find(x=>String(x.id)===el.dataset.resolved);
+  if(item)item.resolved=el.checked;save();
+});
+$("export").onclick=()=>{
+  const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob),a=document.createElement("a");
+  a.href=url;a.download="IA-study-tracker-backup.json";a.click();URL.revokeObjectURL(url);
+  $("backupStatus").textContent="Backup exported. Keep the file safe.";
+};
+$("import").onclick=()=>$("file").click();
+$("file").onchange=async e=>{
+  try{
+    const f=e.target.files[0];if(!f)return;const p=JSON.parse(await f.text());
+    if(!p.logs||!p.chapters||!Array.isArray(p.mocks)||!Array.isArray(p.errors))throw Error();
+    state={...fresh(),...p};state.chapters={...fresh().chapters,...p.chapters};
+    state.day=Math.max(1,Math.min(60,+state.day||1));save();render();
+    $("backupStatus").textContent="Backup imported.";
+  }catch(err){$("backupStatus").textContent="Invalid backup file.";}
+  e.target.value="";
+};
+$("reset").onclick=()=>{
+  if(confirm("Reset all tracker data? Export a backup first if needed.")){
+    state=fresh();save();render();$("backupStatus").textContent="Tracker reset.";
   }
-
-  function restartExam() {
-    currentIndex = 0;
-    userAnswers = Array(questions.length).fill(null);
-    timeLeft = 1200;
-    document.getElementById('quiz-body').style.display = 'block';
-    document.getElementById('result-body').style.display = 'none';
-    loadQuestion();
-    startTimer();
-  }
-
-  loadQuestion();
-  startTimer();
+};
+load();render();
 </script>
-
 </body>
 </html>
+```
